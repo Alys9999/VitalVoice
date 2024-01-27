@@ -8,8 +8,8 @@ import VitalVoiceButton from "../../components/VitalVoiceButton";
 import { styled } from 'nativewind';
 
 
-const styledView = styled(View);
-const styledImage = styled(Image)
+const StyledView = styled(View)
+const StyledImage = styled(Image)
 
 interface RouterProps {
     navigation: NavigationProp<any, any>;
@@ -38,8 +38,8 @@ const Login = ({ navigation }: RouterProps) => {
 
 
     return (
-        <styledView className=''>
-            <Image source={logo} resizeMode="contain"></Image>
+        <StyledView className=''>
+            <StyledImage source={logo} resizeMode="contain"></StyledImage>
             <View>
                 <TextInput value={email}
                     placeholder="Email"
@@ -68,7 +68,7 @@ const Login = ({ navigation }: RouterProps) => {
 
             )}
 
-        </styledView>
+        </StyledView>
 
     );
 };
