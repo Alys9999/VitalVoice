@@ -5,7 +5,11 @@ import { NavigationProp } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import VitalVoiceButton from "../../components/VitalVoiceButton";
 
+import { styled } from 'nativewind';
 
+
+const styledView = styled(View);
+const styledImage = styled(Image)
 
 interface RouterProps {
     navigation: NavigationProp<any, any>;
@@ -34,7 +38,7 @@ const Login = ({ navigation }: RouterProps) => {
 
 
     return (
-        <View>
+        <styledView className=''>
             <Image source={logo} resizeMode="contain"></Image>
             <View>
                 <TextInput value={email}
@@ -64,7 +68,7 @@ const Login = ({ navigation }: RouterProps) => {
 
             )}
 
-        </View>
+        </styledView>
 
     );
 };
