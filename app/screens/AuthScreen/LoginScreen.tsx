@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, TextInput, ActivityIndicator, Pressable, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { SignIn } from "../../Auth";
-import { NavigationProp} from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import VitalVoiceButton from "../../components/VitalVoiceButton";
 
 
 
@@ -15,7 +16,7 @@ const Login = ({ navigation }: RouterProps) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    // const logo = require('../../../assets/chroniLogo.png');
+    const logo = require('../../assets/VitallVoiceLogo.png');
 
     // Function to toggle the password visibility state 
     const toggleShowPassword = () => {
@@ -34,7 +35,7 @@ const Login = ({ navigation }: RouterProps) => {
 
     return (
         <View>
-            {/* <Image source={logo} resizeMode="contain"></Image> */}
+            <Image source={logo} resizeMode="contain"></Image>
             <View>
                 <TextInput value={email}
                     placeholder="Email"
@@ -56,9 +57,8 @@ const Login = ({ navigation }: RouterProps) => {
             </View>
             {loading ? (<ActivityIndicator size="large" color="@0000ff" />) : (
                 <View>
-                    <Pressable onPress={() => navigation.navigate('Signup')} >
-                        <Text>Sign Up</Text>
-                    </Pressable>
+                    <VitalVoiceButton actions={()=>{}} name='Doctor Sign In'></VitalVoiceButton>
+                    <VitalVoiceButton actions={()=>{}} name='Patient Sign In'></VitalVoiceButton>
                 </View>
 
 
