@@ -19,9 +19,9 @@ const HomeScreen = ({navigation}: RouterProps, ) => {
             {/* <Image source={image} resizeMode="contain" style={styles.userImage}></Image> */}
           </View>
 
-          <View style={{flexDirection: "row", width: 100, height:'auto'}}>
-            <Text>{item.fullName}</Text>
-            <Text>{item.lastMessage}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.fullName}>{item.fullName}</Text>
+            <Text style={styles.lastMessage}>{item.lastMessage}</Text>
           </View> 
 
         </TouchableOpacity>
