@@ -3,13 +3,8 @@ import { SignOut } from "../Auth";
 import { Picker } from '@react-native-picker/picker';
 import { useState } from "react";
 import { getLocales, locales } from 'expo-localization';
-import { FIREBASE_AUTH } from "../../Firebase";
-import VitalVoiceButton from "../components/VitalVoiceButton";
-
 
 const SettingScreen = () => {
-    const languages = getLocales();
-
     const [selectedLanguage, setSelectedLanguage] = useState();
 
     return (
