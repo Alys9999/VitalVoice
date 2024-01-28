@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType, ScrollView } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import { NavigationProp } from '@react-navigation/native'; // Import useNavigation hook
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -13,12 +12,12 @@ const HomeScreen = ({navigation}: RouterProps, ) => {
   const renderItem=({ item, index }: { item: ItemType, index: number }) => {
     return (
       <View style={styles.container}>
-        <TouchableOpacity key={index} onPress={() => navigation.navigate("theChatRoom")} style={[styles.userInfoContainer, index % 2 !== 0 ? styles.oddBackground: null]}>
+        <TouchableOpacity key={index} onPress={() => navigation.navigate("theChatRoom")} style={styles.userInfoContainer}>
           {/* <View style={styles.userImageContainer}>
             <Image source={image} resizeMode="contain" style={styles.userImage}></Image>
           </View> */}
 
-          <MaterialCommunityIcons style={styles.profile} name="face-woman-profile" size={35} color="#4A6FA5"/>
+          <MaterialCommunityIcons style={styles.profile} name="face-woman-profile" size={45} color="#4A6FA5"/>
 
 
           <View style={styles.textContainer}>
@@ -31,12 +30,16 @@ const HomeScreen = ({navigation}: RouterProps, ) => {
     );
   };
 
+
   return (    
     <View style={styles.container}>
-        <Text>{"Home"}</Text>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.header}>Home</Text>
         {mockData.map((item, index) => renderItem({ item, index }))}
-
-        <AntDesign name="pluscircle" size={50} color="#4A6FA5" />
+        <TouchableOpacity onPress={()=>{}} style={styles.add}>
+          <AntDesign name="pluscircle" size={50} color="#4A6FA5"/>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
@@ -49,39 +52,17 @@ const styles = StyleSheet.create({
         width:'100%',
         backgroundColor: '#DBE9EE',
     },
-    box: {
-      borderWidth: 1,
-      padding: 50,
-      backgroundColor: '#FFFFFF',
-    },
-    doctorName: {
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginBottom: 5,
-    },
     userInfoContainer: {  // individual chat box
-      width: "100%",
+      width: "90%",
       flexDirection: "row",
       alignItems: "center",
-      height: 80,
-    },
-    // userImageContainer: {
-    //   height: 50,
-    //   width: 50,
-    //   borderRadius: 7,
-    //   position: "absolute",
-    //   top: 14,
-    //   right: 2,
-    //   zIndex: 999,
-    //   marginRight: 100,
-    // },
-    oddBackground: {
-      backgroundColor: "#F2F2F2"
+      height: '80%',
+      backgroundColor: '#F2F2F2',
+      borderRadius: 20
     },
     userImage: {
       height: 50,
       width: 50,
-      borderRadius: 25
     },
     lastSeen: {
       fontSize: 14,
@@ -90,9 +71,9 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     fullName: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
-      marginBottom: 4,
+      marginBottom: 5,
     },
     lastMessage: {
       fontSize: 14,
@@ -101,7 +82,16 @@ const styles = StyleSheet.create({
     profile: {
       marginLeft: 20,
       marginRight: 20,
-
+    },
+    header: {
+      marginTop: 80,
+      fontSize: 25,
+      marginBottom: 20,
+    },
+    add: {
+      position: 'absolute',
+      bottom: 20,
+      right: 10,
     }
   });
 
@@ -146,7 +136,7 @@ const mockData: ItemType[] = [
   lastMessage: "Angular is the best framework..."
 },
 {
-  fullName: "Dr. Ibhrahim",
+  fullName: "Dr. Ibrahim",
   userImg: "../../assets/pfp7.png",
   lastMessage: "=)"
 }

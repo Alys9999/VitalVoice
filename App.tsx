@@ -16,6 +16,9 @@ import LandingScreen from './app/screens/AuthScreen/LandingScreen';
 import DoctorSignin from './app/screens/AuthScreen/DoctorSignin';
 import PatientSignIn from './app/screens/AuthScreen/PatientSignin';
 import NewUser from './app/screens/AuthScreen/NewUser';
+import { MenuProvider } from 'react-native-popup-menu';
+
+
 
 const Stack = createNativeStackNavigator()
 
@@ -30,16 +33,18 @@ export default function App() {
   }, [])
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Landing'>
-        {user ? (<Stack.Screen name="BottomTabNav" component={BottomTabNav} options={{ headerShown: false }}></Stack.Screen>) : (
-        <><Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }}></Stack.Screen>
-                <><Stack.Screen name="DoctorSignin" component={DoctorSignin} options={{ headerShown: false }}></Stack.Screen>
+    <MenuProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Landing'>
+          {user ? (<Stack.Screen name="BottomTabNav" component={BottomTabNav} options={{ headerShown: false }}></Stack.Screen>) : (
+          <><Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }}></Stack.Screen>
+                  <><Stack.Screen name="DoctorSignin" component={DoctorSignin} options={{ headerShown: false }}></Stack.Screen>
 
-        <Stack.Screen name="PatientSignin" component={PatientSignIn} options={{ headerShown: false, headerTitle:"" }}></Stack.Screen></>
-        <Stack.Screen name="NewUser" component={NewUser} options={{ headerShown: false, headerTitle:"" }}></Stack.Screen></>)}
+          <Stack.Screen name="PatientSignin" component={PatientSignIn} options={{ headerShown: false, headerTitle:"" }}></Stack.Screen></>
+          <Stack.Screen name="NewUser" component={NewUser} options={{ headerShown: false, headerTitle:"" }}></Stack.Screen></>)}
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MenuProvider>
   );
 }
