@@ -15,7 +15,7 @@ const NewUser = ({ navigation }: any) => {
 
     return (
         <KeyboardAvoidingView style={styles.container}>
-            <VitalVoiceTextInput name='Phone' value={firstname} onChangeText={onChangeFirstName}></VitalVoiceTextInput>
+            <VitalVoiceTextInput name='First Name*' value={firstname} onChangeText={onChangeFirstName}></VitalVoiceTextInput>
             <VitalVoiceTextInput name='Last Name*' value={lastname} onChangeText={onChangeLastName}></VitalVoiceTextInput>
             <VitalVoiceTextInput name='Phone*' value={phone} onChangeText={onChangeNumber}></VitalVoiceTextInput>
             <VitalVoiceTextInput name='Language*' value={language} onChangeText={onChangeLanguage} ></VitalVoiceTextInput>

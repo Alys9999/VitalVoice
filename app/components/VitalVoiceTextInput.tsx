@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     inputV: {
-        maxWidth: '80%'
+        width: '90%',
+        height: '100%',
     },
     inputBox: {
         height: 40,

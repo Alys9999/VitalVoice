@@ -9,7 +9,6 @@ import {
   Platform,
   Image,
   KeyboardAvoidingView,
-  Dimensions,
 } from 'react-native';
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
@@ -19,7 +18,6 @@ import { FIREBASE_APP, FIREBASE_AUTH } from '../../../Firebase';
 import { SignIn } from '../../Auth';
 import RequestCode from '../../components/RequestCode';
 import SendCode from '../../components/SendCode';
-
 
 // Firebase references
 const app = FIREBASE_APP;

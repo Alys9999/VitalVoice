@@ -1,6 +1,3 @@
-// 
-
-
 import * as React from 'react';
 import {
   Text,
@@ -10,14 +7,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
+import parsePhoneNumber from 'libphonenumber-js'
+import { FIREBASE_APP, FIREBASE_AUTH } from '../../../Firebase';
+import { SignIn } from '../../Auth';
+import RequestCode from '../../components/RequestCode';
+import SendCode from '../../components/SendCode';
 
 // Firebase references
-const app = getApp();
-const auth = getAuth(app);
+const app = FIREBASE_APP;
+const auth = FIREBASE_AUTH;
 
 // Double-check that we can run the example
 if (!app?.options || Platform.OS === 'web') {
@@ -26,100 +30,128 @@ if (!app?.options || Platform.OS === 'web') {
   );
 }
 
-export default function DoctorSignin() {
+export default function PatientSignin() {
   // Ref or state management hooks
   let recaptchaVerifier = React.useRef<any>();
-  const [phoneNumber, setPhoneNumber] = React.useState<string>();
-  const [verificationId, setVerificationId] = React.useState<string>();
-  const [verificationCode, setVerificationCode] = React.useState<string>();
+  let [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  const [verificationId, setVerificationId] = React.useState<string>("");
+  const [verificationCode, setVerificationCode] = React.useState<string>("");
 
   const firebaseConfig = app ? app.options : undefined;
   const [message, showMessage] = React.useState<any>(null);
-  const attemptInvisibleVerification = false;
+  const attemptInvisibleVerification = true;
+
+  const logo = require('../../../assets/VitalVoiceLogo.png');
 
   return (
-    <View style={{ padding: 20, marginTop: 50 }}>
-      <FirebaseRecaptchaVerifierModal
-        ref={recaptchaVerifier}
-        firebaseConfig={app.options}
-      // attemptInvisibleVerification
-      />
-      <Text style={{ marginTop: 20 }}>Enter phone number</Text>
-      <TextInput
-        style={{ marginVertical: 10, fontSize: 17 }}
-        placeholder="+1 999 999 9999"
-        autoFocus
-        autoComplete="tel"
-        keyboardType="phone-pad"
-        textContentType="telephoneNumber"
-        onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
-      />
-      <Button
-        title="Send Verification Code"
-        disabled={!phoneNumber}
-        onPress={async () => {
-          // The FirebaseRecaptchaVerifierModal ref implements the
-          // FirebaseAuthApplicationVerifier interface and can be
-          // passed directly to `verifyPhoneNumber`.
-          try {
-            const phoneProvider = new PhoneAuthProvider(auth);
-            if (typeof phoneNumber == "string") {
-              const verificationId = await phoneProvider.verifyPhoneNumber(
-                phoneNumber,
-                recaptchaVerifier.current
-              );
-              setVerificationId(verificationId);
-              showMessage({
-                text: 'Verification code has been sent to your phone.',
-              });
-            }
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+    >
+      <View style={styles.container}>
+        <Image source={logo} resizeMode="contain" style={styles.logo}></Image>
 
-          } catch (err: any) {
-            showMessage({ text: `Error: ${err.message}`, color: 'red' });
-          }
-        }}
-      />
-      <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
-      <TextInput
-        style={{ marginVertical: 10, fontSize: 17 }}
-        editable={!!verificationId}
-        placeholder="123456"
-        onChangeText={setVerificationCode}
-      />
-      <Button
-        title="Confirm Verification Code"
-        disabled={!verificationId}
-        onPress={async () => {
-          try {
-            if (typeof verificationId == "string" && typeof verificationCode == "string") {
-              const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-              await signInWithCredential(auth, credential);
-              showMessage({ text: 'Phone authentication successful 👍' });
-            }
-          } catch (err: any) {
-            showMessage({ text: `Error: ${err.message}`, color: 'red' });
-          }
-        }}
-      />
-      {message ? (
-        <TouchableOpacity
-          style={[
-            StyleSheet.absoluteFill,
-            { backgroundColor: "#ffffffee", justifyContent: 'center' },
-          ]}
-          onPress={() => showMessage(undefined)}>
-          <Text
-            style={{
-              color: message.color || 'blue',
-              fontSize: 17,
-              textAlign: 'center',
-              margin: 20,
-            }}>
-            {message.text}
-          </Text>
-        </TouchableOpacity>
-      ) : undefined}
-      {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
-    </View>
+        <FirebaseRecaptchaVerifierModal
+          ref={recaptchaVerifier}
+          firebaseConfig={app.options}
+        // attemptInvisibleVerification
+        />
+        <View style={{ width: '80%' }}>
+          <Text style={{
+            paddingLeft: "2%",
+            fontWeight: 'bold',
+            marginBottom: 5,
+          }}>Phone</Text>
+          <View style={styles.inputBox}>
+            <TextInput style={styles.input}
+              autoComplete="tel"
+              keyboardType="phone-pad"
+              placeholder="Request SMS Code"
+              textContentType="telephoneNumber" value={phoneNumber} onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}></TextInput>
+            <RequestCode phoneNumber={phoneNumber} recaptchaVerifier={recaptchaVerifier} setVerificationId={setVerificationId} showMessage={showMessage}></RequestCode>
+          </View>
+        </View>
+
+        <View style={{ width: '80%' }}>
+          <Text style={{
+            paddingLeft: "2%",
+            fontWeight: 'bold',
+            marginBottom: 5,
+          }}>SMS Code</Text>
+          <View style={styles.inputBox}>
+            <TextInput style={styles.input}
+              editable={!!verificationId}
+              onChangeText={setVerificationCode}
+              placeholder="Verify with SMS"
+            />
+            <SendCode verificationId={verificationId} setVerificationId={setVerificationId} verificationCode={verificationCode} setVerificationCode={setVerificationCode} auth={auth} showMessage={showMessage}></SendCode>
+          </View>
+        </View>
+
+        {message ? (
+          <TouchableOpacity
+            onPress={() => showMessage(undefined)}>
+            <Text
+              style={{
+                color: message.color || 'blue',
+                fontSize: 17,
+                textAlign: 'center',
+                margin: 20,
+              }}>
+              {message.text}
+            </Text>
+          </TouchableOpacity>
+        ) : undefined}
+
+        <View style={{ marginTop: 30, width: '90%', alignItems: 'center' }}>
+          {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#DBE9EE',
+  },
+  t: {
+    paddingLeft: "2%",
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  inputBox: {
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F2F2F2',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    marginBottom: 25,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    flexDirection: 'row',
+  },
+  logo: {
+    marginTop: -40,
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    width: '80%',
+    marginLeft: 20,
+  }
+})
