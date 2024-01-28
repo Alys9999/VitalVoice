@@ -1,6 +1,5 @@
 // 
 
-
 import * as React from 'react';
 import {
   Text,
@@ -14,6 +13,8 @@ import {
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
+import { FIREBASE_APP, FIREBASE_AUTH } from '../../../Firebase';
+
 
 // Initialize Firebase JS SDK >=9.x.x
 // https://firebase.google.com/docs/web/setup
@@ -26,8 +27,8 @@ import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier }
 }*/
 
 // Firebase references
-const app = getApp();
-const auth = getAuth(app);
+const app = FIREBASE_APP;
+const auth = FIREBASE_AUTH;
 
 // Double-check that we can run the example
 if (!app?.options || Platform.OS === 'web') {
@@ -45,7 +46,7 @@ export default function DoctorSignin() {
 
   const firebaseConfig = app ? app.options : undefined;
   const [message, showMessage] = React.useState<any>(null);
-  const attemptInvisibleVerification = false;
+  const attemptInvisibleVerification = true;
 
   return (
     <View style={{ padding: 20, marginTop: 50 }}>
@@ -54,16 +55,18 @@ export default function DoctorSignin() {
         firebaseConfig={app.options}
         // attemptInvisibleVerification
       />
-      <Text style={{ marginTop: 20 }}>Enter phone number</Text>
-      <TextInput
-        style={{ marginVertical: 10, fontSize: 17 }}
-        placeholder="+1 999 999 9999"
-        autoFocus
+        <View style={{ width: '80%'}}>
+            <Text style={{paddingLeft: "2%",
+        fontWeight: 'bold',
+        marginBottom: 5,}}>Phone Number</Text>
+            <View style={styles.inputBox}>
+                <TextInput style={styles.inputV}         autoFocus
         autoComplete="tel"
         keyboardType="phone-pad"
-        textContentType="telephoneNumber"
-        onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
-      />
+        textContentType="telephoneNumber" value={phoneNumber} onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}></TextInput>
+            </View>
+        </View>
+
       <Button
         title="Send Verification Code"
         disabled={!phoneNumber}
@@ -104,6 +107,7 @@ export default function DoctorSignin() {
             if (typeof verificationId == "string" && typeof verificationCode == "string") {
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
             await signInWithCredential(auth, credential);
+
             showMessage({ text: 'Phone authentication successful 👍' });
             }
           } catch (err:any) {
@@ -133,3 +137,37 @@ export default function DoctorSignin() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width:'100%',
+        backgroundColor: '#DBE9EE',
+    },
+    t: {
+        paddingLeft: "2%",
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    inputV: {
+        maxWidth: '80%'
+    },
+    inputBox: {
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: '#F2F2F2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 25,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    }
+})

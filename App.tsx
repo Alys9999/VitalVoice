@@ -24,7 +24,7 @@ export default function App() {
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log("User state changed. Current user: ", user?.email);
+      console.log("User state changed. Current user: ", user?.phoneNumber);
       setUser(user);
     })
   }, [])
@@ -32,7 +32,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Landing'>
-        {user ? (<Stack.Screen name="Dashboard" component={BottomTabNav} options={{ headerShown: false }}></Stack.Screen>) : (
+        {user ? (<Stack.Screen name="BottomTabNav" component={BottomTabNav} options={{ headerShown: false }}></Stack.Screen>) : (
         <><Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }}></Stack.Screen>
                 <><Stack.Screen name="DoctorSignin" component={DoctorSignin} options={{ headerShown: false }}></Stack.Screen>
 

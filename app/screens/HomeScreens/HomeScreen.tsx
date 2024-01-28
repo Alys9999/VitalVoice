@@ -1,42 +1,40 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageSourcePropType } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
-import { COLORS } from '../constants';
+import { NavigationProp } from '@react-navigation/native'; // Import useNavigation hook
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const HomeScreen = ({data}) => {
 
-  interface ItemType {
-    fullName: string;
-    userImg: string;
-    lastMessage: string;
-  }
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
 
-  const navigation = useNavigation();
+const HomeScreen = ({navigation}: RouterProps, ) => {
 
   const renderItem=({ item, index }: { item: ItemType, index: number }) => {
-  
     return (
-      <TouchableOpacity key={index} onPress={() => navigation.navigate("Chat", { doctorName: item.fullName})} style={[styles.userInfoContainer, index % 2 !== 0 ? styles.oddBackground: null]}>
-        <View style={styles.userImageContainer}>
-          <Image source={item.userImg} resizeMode='contain' style={styles.userImage}/>
-        </View>
+      <View style={styles.container}>
+        <TouchableOpacity key={index} onPress={() => navigation.navigate("theChatRoom")} style={[styles.userInfoContainer, index % 2 !== 0 ? styles.oddBackground: null]}>
+          <View style={styles.userImageContainer}>
+            <MaterialCommunityIcons name="face-woman-profile" size={35} color="#4A6FA5" />
+            {/* <Image source={image} resizeMode="contain" style={styles.userImage}></Image> */}
+          </View>
 
-        <View style={{flexDirection: "row", width: 100}}>
-        </View>
+          <View style={{flexDirection: "row", width: 100, height:'auto'}}>
+            <Text>{item.fullName}</Text>
+            <Text>{item.lastMessage}</Text>
+          </View> 
 
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     );
   };
 
   return (    
     <View style={styles.container}>
         <Text>{"Home"}</Text>
-        <View style={styles.userInfoContainer}>
-            <Text style={styles.doctorName}>{item.fullName}</Text>
-            <Text style={styles.lastSeen}>{item.lastMessage}</Text>
-        </View>
+        {mockData.map((item, index) => renderItem({ item, index }))}
 
-        <AntDesign name="pluscircle" size={24} color="black" />
+        <AntDesign name="pluscircle" size={50} color="#4A6FA5" />
     </View>
   );
 };
@@ -51,36 +49,30 @@ const styles = StyleSheet.create({
     },
     box: {
       borderWidth: 1,
-      borderColor: 'black',
-      padding: 20,
-      backgroundColor: '#F2F2F2',
+      padding: 50,
+      backgroundColor: '#FFFFFF',
     },
     doctorName: {
       fontWeight: 'bold',
       fontSize: 20,
       marginBottom: 5,
     },
-    userInfoContainer: {
+    userInfoContainer: {  // individual chat box
       width: "100%",
       flexDirection: "row",
       alignItems: "center",
-      borderBottomColor: "#F2F2F2",
-      borderBottomWidth: 1
     },
     userImageContainer: {
-      height: 14,
-      width: 14,
+      height: 50,
+      width: 50,
       borderRadius: 7,
-      backgroundColor: COLORS.primary,
       position: "absolute",
       top: 14,
       right: 2,
       zIndex: 999,
-      borderWidth: 2,
-      borderColor: COLORS.white
     },
     oddBackground: {
-      backgroundColor: COLORS.white
+      backgroundColor: "#F2F2F2"
     },
     userImage: {
       height: 50,
@@ -89,8 +81,52 @@ const styles = StyleSheet.create({
     },
     lastSeen: {
       fontSize: 14,
-      color: COLORS.secondaryGray
     },
   });
 
 export default HomeScreen;
+
+
+interface ItemType {
+  fullName: string;
+  userImg: string;
+  lastMessage: string;
+}
+
+const mockData: ItemType[] = [
+{
+  fullName: "Dr. Panageas",
+  userImg: "../../assets/pfp1.png",
+  lastMessage: "What is the shortest distance to..."
+},
+{
+  fullName: "Dr. Shindler",
+  userImg: "../../assets/pfp2.png",
+  lastMessage: "I love data structures!"
+},
+{
+  fullName: "Mary Roth",
+  userImg: "../../assets/pfp3.png",
+  lastMessage: "My neighbor was Jeffrey Dahmer..."
+},
+{
+  fullName: "Therapist Wongma",
+  userImg: "../../assets/pfp4.png",
+  lastMessage: "We love segmentation faults!!!"
+},
+{
+  fullName: "Nurse Ahmed",
+  userImg: "../../assets/pfp5.png",
+  lastMessage: "<3>"
+},
+{
+  fullName: "Dr. Baldwin",
+  userImg: "../../assets/pfp6.png",
+  lastMessage: "Angular is the best framework..."
+},
+{
+  fullName: "Dr. Ibhrahim",
+  userImg: "../../assets/pfp7.png",
+  lastMessage: "=)"
+}
+];

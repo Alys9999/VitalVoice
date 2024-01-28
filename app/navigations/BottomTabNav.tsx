@@ -3,15 +3,35 @@ import React from "react";
 import HomeScreen from "../screens/HomeScreens/HomeScreen";
 import APScreen from "../screens/APScreen";
 import SettingScreen from "../screens/SettingScreen";
+import { FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import HomeNav from "./HomeNav";
+
+
 
 const bottomTab = createBottomTabNavigator();
 
-function BottomTabNav() {
+const BottomTabNav: React.FC = () => {
 	return (
-		<bottomTab.Navigator initialRouteName="dashboard">
+		<bottomTab.Navigator 
+		initialRouteName="Home"
+		screenOptions={({route}) => ({
+			tabBarIcon: ({color, size}) => {
+				let iconComponent;
+
+				if (route.name === "Home") {
+					iconComponent = <FontAwesome name="home" size={size} color={color} />;
+				} else if (route.name === "Action Plan") {
+					iconComponent = <FontAwesome5 name="clipboard-list" size={size} color={color} />;
+				} else if (route.name === "Settings") {
+					iconComponent = <Ionicons name="settings-sharp" size={size} color={color} />;
+				}
+
+				return iconComponent;
+			},
+		})}>
 			<bottomTab.Screen
 				name="Home"
-				component={HomeScreen}
+				component={HomeNav}
 				options={{ headerShown: false }}
 			></bottomTab.Screen>
 			<bottomTab.Screen

@@ -1,55 +1,135 @@
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Pressable, Image, Alert } from "react-native";
-import React, { useState } from "react";
-import { SignIn } from "../../Auth";
-import { NavigationProp } from "@react-navigation/native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import VitalVoiceButton from "../../components/VitalVoiceButton";
-import VitalVoiceTextInput from '../../components/VitalVoiceTextInput';
-import VitalVoiceSmallButton from "../../components/VitalVoiceSmallButton";
+// 
 
 
-interface RouterProps {
-    navigation: NavigationProp<any, any>;
+import * as React from 'react';
+import {
+  Text,
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import { initializeApp, getApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
+
+// Initialize Firebase JS SDK >=9.x.x
+// https://firebase.google.com/docs/web/setup
+/*try {
+  initializeApp({
+    ...
+  });
+} catch (err) {
+  // ignore app already initialized error in snack
+}*/
+
+// Firebase references
+const app = getApp();
+const auth = getAuth(app);
+
+// Double-check that we can run the example
+if (!app?.options || Platform.OS === 'web') {
+  throw new Error(
+    'This example only works on Android or iOS, and requires a valid Firebase config.'
+  );
 }
 
-const DoctorSignIn = ({ navigation }: RouterProps) => {
-    const [phone, setPhone] = useState('');
-    const [SMScode, setSMScode] =useState('');
-    const [loading, setLoading] = useState(false);
-    const logo = require('../../../assets/VitalVoiceLogo.png');
+export default function DoctorSignin() {
+  // Ref or state management hooks
+  let recaptchaVerifier = React.useRef<any>();
+  const [phoneNumber, setPhoneNumber] = React.useState<string>();
+  const [verificationId, setVerificationId] = React.useState<string>();
+  const [verificationCode, setVerificationCode] = React.useState<string>();
 
-    // Function to toggle the password visibility state 
+  const firebaseConfig = app ? app.options : undefined;
+  const [message, showMessage] = React.useState<any>(null);
+  const attemptInvisibleVerification = false;
 
-    const signIn = async () => {
-        setLoading(true);
-        setLoading(false);
-
-    }
-
-
-    return (
-        <View style={[styles.viewstyle]}>
-            <Image source={logo} resizeMode="contain" style={styles.logo}></Image>
-            <VitalVoiceTextInput name='Phone' value={phone} onChangeText={setPhone}></VitalVoiceTextInput>
-            <VitalVoiceTextInput name='SMS Code' value={SMScode} onChangeText={setSMScode}></VitalVoiceTextInput>
-            <VitalVoiceSmallButton name="Sign In" action={()=>{}}></VitalVoiceSmallButton>
-        </View>
-
-    );
-};
-
-export default DoctorSignIn;
-
-const styles = StyleSheet.create({
-    viewstyle:{
-        flex:1,
-        alignItems:'center',
-        alignContent:'center',
-        justifyContent:'center',
-        backgroundColor: '#DBE9EE',
-    },
-    logo: {
-        marginTop: -110,
-
-    },
-})
+  return (
+    <View style={{ padding: 20, marginTop: 50 }}>
+      <FirebaseRecaptchaVerifierModal
+        ref={recaptchaVerifier}
+        firebaseConfig={app.options}
+        // attemptInvisibleVerification
+      />
+      <Text style={{ marginTop: 20 }}>Enter phone number</Text>
+      <TextInput
+        style={{ marginVertical: 10, fontSize: 17 }}
+        placeholder="+1 999 999 9999"
+        autoFocus
+        autoComplete="tel"
+        keyboardType="phone-pad"
+        textContentType="telephoneNumber"
+        onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
+      />
+      <Button
+        title="Send Verification Code"
+        disabled={!phoneNumber}
+        onPress={async () => {
+          // The FirebaseRecaptchaVerifierModal ref implements the
+          // FirebaseAuthApplicationVerifier interface and can be
+          // passed directly to `verifyPhoneNumber`.
+          try {
+            const phoneProvider = new PhoneAuthProvider(auth);
+            if (typeof phoneNumber == "string") {
+                const verificationId = await phoneProvider.verifyPhoneNumber(
+                    phoneNumber,
+                    recaptchaVerifier.current
+                  );
+                  setVerificationId(verificationId);
+                  showMessage({
+                    text: 'Verification code has been sent to your phone.',
+                  });
+            }
+            
+          } catch (err:any) {
+            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+          }
+        }}
+      />
+      <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
+      <TextInput
+        style={{ marginVertical: 10, fontSize: 17 }}
+        editable={!!verificationId}
+        placeholder="123456"
+        onChangeText={setVerificationCode}
+      />
+      <Button
+        title="Confirm Verification Code"
+        disabled={!verificationId}
+        onPress={async () => {
+          try {
+            if (typeof verificationId == "string" && typeof verificationCode == "string") {
+            const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+            await signInWithCredential(auth, credential);
+            showMessage({ text: 'Phone authentication successful 👍' });
+            }
+          } catch (err:any) {
+            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+          }
+        }}
+      />
+      {message ? (
+        <TouchableOpacity
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: "#ffffffee", justifyContent: 'center' },
+          ]}
+          onPress={() => showMessage(undefined)}>
+          <Text
+            style={{
+              color: message.color || 'blue',
+              fontSize: 17,
+              textAlign: 'center',
+              margin: 20,
+            }}>
+            {message.text}
+          </Text>
+        </TouchableOpacity>
+      ) : undefined}
+      {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+    </View>
+  );
+}
