@@ -1,11 +1,11 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, TextInput, Text, Pressable, View, KeyboardAvoidingView} from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Text, Pressable, View, KeyboardAvoidingView } from 'react-native';
 import VitalVoiceButton from '../../components/VitalVoiceButton';
 import VitalVoiceSmallButton from '../../components/VitalVoiceSmallButton';
 import VitalVoiceTextInput from '../../components/VitalVoiceTextInput';
 
 
-const NewUser = ({navigation}:any) =>{
+const NewUser = ({ navigation }: any) => {
     const [firstname, onChangeFirstName] = React.useState('');
     const [lastname, onChangeLastName] = React.useState('');
     const [phone, onChangeNumber] = React.useState('');
@@ -13,16 +13,16 @@ const NewUser = ({navigation}:any) =>{
     const [provider, onChangeProvider] = React.useState('');
     const [insuranceNum, onChangeInsuranceNum] = React.useState('');
 
-    return(
-      <KeyboardAvoidingView style={styles.container}>
+    return (
+        <KeyboardAvoidingView style={styles.container}>
             <VitalVoiceTextInput name='Phone' value={firstname} onChangeText={onChangeFirstName}></VitalVoiceTextInput>
-          <VitalVoiceTextInput name='Last Name*' value={lastname} onChangeText={onChangeLastName}></VitalVoiceTextInput>
-          <VitalVoiceTextInput name='Phone*'value={phone} onChangeText={onChangeNumber}></VitalVoiceTextInput>
-          <VitalVoiceTextInput name='Language*' value={language} onChangeText={onChangeLanguage} ></VitalVoiceTextInput>
-          <VitalVoiceTextInput name='Insurance Provider' value={provider} onChangeText={onChangeProvider}></VitalVoiceTextInput>
-          <VitalVoiceTextInput name='Insurance #' value={insuranceNum} onChangeText={onChangeInsuranceNum}></VitalVoiceTextInput>
-          <VitalVoiceSmallButton name="Sign Up" action={()=>{}}></VitalVoiceSmallButton>
-      </KeyboardAvoidingView>
+            <VitalVoiceTextInput name='Last Name*' value={lastname} onChangeText={onChangeLastName}></VitalVoiceTextInput>
+            <VitalVoiceTextInput name='Phone*' value={phone} onChangeText={onChangeNumber}></VitalVoiceTextInput>
+            <VitalVoiceTextInput name='Language*' value={language} onChangeText={onChangeLanguage} ></VitalVoiceTextInput>
+            <VitalVoiceTextInput name='Insurance Provider' value={provider} onChangeText={onChangeProvider}></VitalVoiceTextInput>
+            <VitalVoiceTextInput name='Insurance #' value={insuranceNum} onChangeText={onChangeInsuranceNum}></VitalVoiceTextInput>
+            <VitalVoiceSmallButton name="Sign Up" action={() => { }}></VitalVoiceSmallButton>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -31,10 +31,10 @@ export default NewUser;
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width:'100%',
+        width: '100%',
         backgroundColor: '#DBE9EE',
     },
     t: {

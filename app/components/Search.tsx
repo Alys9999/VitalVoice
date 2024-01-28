@@ -1,25 +1,27 @@
 import { StyleSheet, TextInput, View } from "react-native"
 import { Text } from "react-native";
+import { FontAwesome5 } from '@expo/vector-icons';
 
-type VitalVoiceTextInputProps = {
+type SearchProps = {
     name: string;
     value: string;
     onChangeText: (text: string) => void;
     placeholder?: string;
 };
 
-function VitalVoiceTextInput({ name, value, onChangeText }: VitalVoiceTextInputProps) {
+function Search({ name, value, onChangeText }: SearchProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.t}>{name}</Text>
             <View style={styles.inputBox}>
+                <FontAwesome5 style={styles.searchIcon} name="search" size={20} color="#4A6FA5" />
                 <TextInput style={styles.inputV} value={value} onChangeText={onChangeText}></TextInput>
             </View>
         </View>
     )
 }
 
-export default VitalVoiceTextInput;
+export default Search;
 
 
 const styles = StyleSheet.create({
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#F2F2F2',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginBottom: 25,
         shadowColor: '#000',
         shadowOffset: {
@@ -49,5 +51,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    searchIcon: {
+        marginLeft: 15,
+        marginTop: 17,
     }
 })
