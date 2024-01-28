@@ -1,13 +1,10 @@
-import { Text, View } from "react-native"
+import { Text, View, Pressable, StyleSheet } from "react-native"
 import { SignOut } from "../Auth";
-import VitalVoiceSmallButton from "../components/VitalVoiceSmallButton";
 import { Picker } from '@react-native-picker/picker';
 import { useState } from "react";
 import { getLocales, locales } from 'expo-localization';
 import { FIREBASE_AUTH } from "../../Firebase";
 import VitalVoiceButton from "../components/VitalVoiceButton";
-
-
 
 
 const SettingScreen = () => {
@@ -16,8 +13,9 @@ const SettingScreen = () => {
     const [selectedLanguage, setSelectedLanguage] = useState();
 
     return (
-        <View style={{ flex: 1, paddingTop: 40, alignItems: "center" }}>
-            <Text>Current User: {FIREBASE_AUTH.currentUser?.phoneNumber}</Text>
+        <View style={styles.container}>
+            {/* <Text>Current User: {FIREBASE_AUTH.currentUser?.phoneNumber}</Text> */}
+            <Text style={styles.header}>Settings</Text>
             <Text>Please choose a language:</Text>
             <Picker
                 selectedValue={selectedLanguage}
@@ -34,12 +32,47 @@ const SettingScreen = () => {
                 <Picker.Item label='Portuguese' value='pu'></Picker.Item>
                 <Picker.Item label='Arabic' value='ar'></Picker.Item>
 
-
-
             </Picker>
-            <VitalVoiceButton name='Sign out' action={() => { SignOut() }}></VitalVoiceButton>
+            <Pressable onPress={SignOut} style={styles.signOut}>
+                <Text style={styles.text}>Sign out</Text>
+            </Pressable>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '100%',
+        backgroundColor: '#DBE9EE',
+    },
+    header: {
+        marginTop: 60,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    signOut: {
+        width: '80%',
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: '#4A6FA5',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 15,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    text: {
+        color: "#F2F2F2",
+    },
+})
 
 export default SettingScreen;
