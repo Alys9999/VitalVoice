@@ -94,7 +94,7 @@ export default function DoctorSignin() {
             onPress={() => showMessage(undefined)}>
             <Text
               style={{
-                color: message.color || 'blue',
+                color: message.color || '#4A6FA5',
                 fontSize: 17,
                 textAlign: 'center',
                 margin: 20,
