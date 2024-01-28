@@ -15,6 +15,7 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
 import parsePhoneNumber from 'libphonenumber-js'
 import { FIREBASE_APP, FIREBASE_AUTH } from '../../../Firebase';
+import { SignIn } from '../../Auth';
 
 
 // Initialize Firebase JS SDK >=9.x.x
@@ -79,7 +80,7 @@ export default function DoctorSignin() {
             const phoneProvider = new PhoneAuthProvider(auth);
             if (typeof phoneNumber == "string") {
                 const verificationId = await phoneProvider.verifyPhoneNumber(
-                  parsePhoneNumber(phoneNumber).formatInternational(),
+                  phoneNumber,
                     recaptchaVerifier.current
                   );
                   setVerificationId(verificationId);
@@ -107,7 +108,7 @@ export default function DoctorSignin() {
           try {
             if (typeof verificationId == "string" && typeof verificationCode == "string") {
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-            await signInWithCredential(auth, credential);
+            SignIn(auth, credential);
 
             showMessage({ text: 'Phone authentication successful 👍' });
             }

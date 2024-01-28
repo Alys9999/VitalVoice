@@ -14,10 +14,12 @@ const HomeScreen = ({navigation}: RouterProps, ) => {
     return (
       <View style={styles.container}>
         <TouchableOpacity key={index} onPress={() => navigation.navigate("theChatRoom")} style={[styles.userInfoContainer, index % 2 !== 0 ? styles.oddBackground: null]}>
-          <View style={styles.userImageContainer}>
-            <MaterialCommunityIcons name="face-woman-profile" size={35} color="#4A6FA5" />
-            {/* <Image source={image} resizeMode="contain" style={styles.userImage}></Image> */}
-          </View>
+          {/* <View style={styles.userImageContainer}>
+            <Image source={image} resizeMode="contain" style={styles.userImage}></Image>
+          </View> */}
+
+          <MaterialCommunityIcons style={styles.profile} name="face-woman-profile" size={35} color="#4A6FA5"/>
+
 
           <View style={styles.textContainer}>
             <Text style={styles.fullName}>{item.fullName}</Text>
@@ -61,16 +63,18 @@ const styles = StyleSheet.create({
       width: "100%",
       flexDirection: "row",
       alignItems: "center",
+      height: 80,
     },
-    userImageContainer: {
-      height: 50,
-      width: 50,
-      borderRadius: 7,
-      position: "absolute",
-      top: 14,
-      right: 2,
-      zIndex: 999,
-    },
+    // userImageContainer: {
+    //   height: 50,
+    //   width: 50,
+    //   borderRadius: 7,
+    //   position: "absolute",
+    //   top: 14,
+    //   right: 2,
+    //   zIndex: 999,
+    //   marginRight: 100,
+    // },
     oddBackground: {
       backgroundColor: "#F2F2F2"
     },
@@ -82,6 +86,23 @@ const styles = StyleSheet.create({
     lastSeen: {
       fontSize: 14,
     },
+    textContainer: {
+      flex: 1,
+    },
+    fullName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 4,
+    },
+    lastMessage: {
+      fontSize: 14,
+      color: '#666666',
+    },
+    profile: {
+      marginLeft: 20,
+      marginRight: 20,
+
+    }
   });
 
 export default HomeScreen;
@@ -117,7 +138,7 @@ const mockData: ItemType[] = [
 {
   fullName: "Nurse Ahmed",
   userImg: "../../assets/pfp5.png",
-  lastMessage: "<3>"
+  lastMessage: "<3"
 },
 {
   fullName: "Dr. Baldwin",
