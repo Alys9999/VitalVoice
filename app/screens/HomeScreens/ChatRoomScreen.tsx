@@ -88,23 +88,18 @@ const ChatRoomScreen = () => {
         <View style={styles.container}>
             <Text style={{alignSelf:'flex-start', fontSize:24, fontWeight: '500', marginLeft:10, marginTop:20}}>{mockingMessages.doctor_name}</Text>
             <ScrollView>
-                {mockingMessages.messages.map((theMessage) => {
+                {mockingMessages.messages.map((theMessage, index) => {
                     if (theMessage.senderid == currentUserID) {
                         return (
-                            <View style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
+                            <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column', }]}>
-
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                     </View>
                                     <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
 
@@ -114,25 +109,19 @@ const ChatRoomScreen = () => {
                         )
                     } else {
                         return (
-                            <View style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
+                            <View key={index} style={{alignItems:'center', minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
+                                <Image source={wave} style={{marginRight:10}}></Image>
+                                <View style={styles.arrow}></View>
                                 <View style={[styles.messageBox, { flexDirection: 'column' }]}>
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                     </View>
-
-
                                     <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
-
-
                                 </View>
                             </View>
                         )
@@ -180,21 +169,26 @@ const styles = StyleSheet.create({
     messageBox: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F2F2F22',
-        // React Native doesn't support box-shadow directly, but you can use elevation for Android
-        elevation: 5, // This is for Android; you'll need to use shadow props for iOS
-        // For iOS shadow
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 16.8,
-        borderRadius: 20,
+        backgroundColor: '#F2F2F2',
+        borderRadius: 50,
+        // elevation:5,
         maxWidth: "60%",
         maxHeight:100
     },
+    arrow: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderRightWidth: 20, // Adjust the size of the arrow
+        borderTopWidth: 20, // Adjust the size of the arrow
+        borderBottomWidth: 20, // Adjust the size of the arrow
+        borderRightColor: '#F2F2F2', // Match messageBox background color
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        marginRight: -10, // Adjust based on arrow size
+        transform: [{ rotate: '110deg' }], // Rotate to point to the left
+      },
     playS: {
         maxHeight: 50,
         resizeMode: 'contain'

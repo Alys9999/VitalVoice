@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput, Text, Pressable, View, KeyboardAvo
 import VitalVoiceButton from '../../components/VitalVoiceButton';
 import VitalVoiceSmallButton from '../../components/VitalVoiceSmallButton';
 import VitalVoiceTextInput from '../../components/VitalVoiceTextInput';
+import { signUp } from "../../utils/ApiUtils";
 
 
 const NewUser = ({ navigation }: any) => {
@@ -21,7 +22,7 @@ const NewUser = ({ navigation }: any) => {
             <VitalVoiceTextInput name='Language*' value={language} onChangeText={onChangeLanguage} ></VitalVoiceTextInput>
             <VitalVoiceTextInput name='Insurance Provider' value={provider} onChangeText={onChangeProvider}></VitalVoiceTextInput>
             <VitalVoiceTextInput name='Insurance #' value={insuranceNum} onChangeText={onChangeInsuranceNum}></VitalVoiceTextInput>
-            <VitalVoiceSmallButton name="Sign Up" action={() => { }}></VitalVoiceSmallButton>
+            <VitalVoiceSmallButton name="Sign Up" action={() => {signUp(phone, firstname, lastname, 'patient', language)}}></VitalVoiceSmallButton>
         </KeyboardAvoidingView>
     );
 };

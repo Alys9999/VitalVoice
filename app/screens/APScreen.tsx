@@ -1,55 +1,83 @@
-import { Text, View } from "react-native"
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import Checkbox from 'expo-checkbox';
 
-interface ToDoItem {
-    id: number;
-    info: string;
-    completed: boolean;
-    fromDoc: string;
-}
+
 
 interface DocItem{
     docName: string;
-    thisDocToDoItems: ToDoItem[]
+    thisDocToDoItems: string[]
 }
 
-const mockToDoA: ToDoItem[] = [
-    {id: 1, info: 'eat pill A', completed:false, fromDoc:'Dr. Panageas' },
-    {id: 2, info: 'eat pill B', completed:false, fromDoc:'Dr. Panageas' },
-    {id: 3, info: 'eat pill C', completed:false, fromDoc:'Dr. Panageas' },
-    {id: 4, info: 'eat pill D', completed:false, fromDoc:'Dr. Panageas' },
-    {id: 5, info: 'eat pill E', completed:false, fromDoc:'Dr. Panageas' },
-]
-
-const mockToDoB: ToDoItem[] = [
-    {id: 1, info: 'eat pill A', completed:false, fromDoc:'Dr. Boo' },
-    {id: 2, info: 'eat pill B', completed:false, fromDoc:'Dr. Boo' },
-    {id: 3, info: 'eat pill C', completed:false, fromDoc:'Dr. Boo' },
-    {id: 4, info: 'eat pill D', completed:false, fromDoc:'Dr. Boo' },
-    {id: 5, info: 'eat pill E', completed:false, fromDoc:'Dr. Boo' },
-]
-
 const doctorOfUser: DocItem[] = [
-    {docName : 'Dr. Panageas', thisDocToDoItems: mockToDoA,},
-    {docName : 'Dr. Boo', thisDocToDoItems: mockToDoB,} 
+    {docName : 'Dr. Panageas', thisDocToDoItems: [
+        "Welcome to our application!",
+        "The quick brown fox jumps over the lazy dog.",
+        "Hello, World!",
+        "React Native is a great framework for mobile development.",
+        "Have a nice day!",]
+        ,},
+    {docName : 'Dr. Boo', thisDocToDoItems: ["This is a sample string for testing.",
+    "Explore, Learn, and Grow.",
+    "Keep calm and carry on.",
+    "Never stop believing in yourself.",
+    "Life is a journey, not a destination."
+  ],} 
 ]
 
 
 const APScreen = ()=>{
+    const [isChecked, setIsChecked] = useState(false);
+    const [no, setNo] =useState(false);
+
     return(
-<View>
-    {doctorOfUser.map((docItem, index) => (
-        <View key={index}>
-            <Text>{docItem.docName}</Text>
-            {docItem.thisDocToDoItems.map((todoItem) => (
-                <View key={todoItem.id}>
-                    <Text>{todoItem.info}</Text>
-                </View>
+<ScrollView style={styles.container}>
+    {doctorOfUser.map((docItem, index1) => (
+        <View key={index1} style={styles.largeAdviceContainer} >
+            <Text>{index1+1}. {docItem.docName} advices: </Text>
+            <View style={styles.adviceContainer}>
+            {docItem.thisDocToDoItems.map((todoItem, index2) => (
+                ((index2 == 0 && index1 == 0)? (<View key={index2} style={{flexDirection:'row'}}>
+                <Checkbox  style={{margin:8}} value={isChecked} onValueChange={setIsChecked}/>
+                <Text style={{marginTop:8}}>{todoItem}</Text>
+
+            </View>):(                    <View key={index2} style={{flexDirection:'row'}}>
+                    <Checkbox  style={{margin:8}} value={no} onValueChange={setNo}/>
+                    <Text style={{marginTop:8}}>{todoItem}</Text>
+ 
+                </View>))
+
+                
+
             ))}
+            </View>
         </View>
     ))}
-</View>
+</ScrollView>
     )
 }
 
 export default APScreen;
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection:'column',
+        width: '100%',
+        height:'100%',
+        backgroundColor: '#DBE9EE',
+        paddingHorizontal:"5%",
+        paddingVertical:50
+    },
+    adviceContainer:{
+        backgroundColor:'#F2F2F2',
+        borderWidth:0,
+        borderRadius:20,
+        paddingHorizontal:10,
+        paddingVertical:5
+    },
+    largeAdviceContainer:{
+        marginTop: 20
+    }
+
+})
