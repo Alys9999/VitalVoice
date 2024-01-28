@@ -14,6 +14,7 @@ import {
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
+import parsePhoneNumber from 'libphonenumber-js'
 
 // Initialize Firebase JS SDK >=9.x.x
 // https://firebase.google.com/docs/web/setup
@@ -39,7 +40,7 @@ if (!app?.options || Platform.OS === 'web') {
 export default function DoctorSignin() {
   // Ref or state management hooks
   let recaptchaVerifier = React.useRef<any>();
-  const [phoneNumber, setPhoneNumber] = React.useState<string>();
+  let [phoneNumber, setPhoneNumber] = React.useState<string>("");
   const [verificationId, setVerificationId] = React.useState<string>();
   const [verificationCode, setVerificationCode] = React.useState<string>();
 
@@ -75,7 +76,7 @@ export default function DoctorSignin() {
             const phoneProvider = new PhoneAuthProvider(auth);
             if (typeof phoneNumber == "string") {
                 const verificationId = await phoneProvider.verifyPhoneNumber(
-                    phoneNumber,
+                  parsePhoneNumber(phoneNumber).formatInternational(),
                     recaptchaVerifier.current
                   );
                   setVerificationId(verificationId);
