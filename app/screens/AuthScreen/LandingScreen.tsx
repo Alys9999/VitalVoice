@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#DBE9EE',
     },
     logo: {
+        maxHeight:400,
+        maxWidth:400,
         marginTop: -40,
         marginBottom: 20,
     },
