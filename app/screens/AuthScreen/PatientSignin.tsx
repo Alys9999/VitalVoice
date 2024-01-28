@@ -15,16 +15,6 @@ import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-fi
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential, ApplicationVerifier } from 'firebase/auth';
 
-// Initialize Firebase JS SDK >=9.x.x
-// https://firebase.google.com/docs/web/setup
-/*try {
-  initializeApp({
-    ...
-  });
-} catch (err) {
-  // ignore app already initialized error in snack
-}*/
-
 // Firebase references
 const app = getApp();
 const auth = getAuth(app);
@@ -52,7 +42,7 @@ export default function DoctorSignin() {
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}
         firebaseConfig={app.options}
-        // attemptInvisibleVerification
+      // attemptInvisibleVerification
       />
       <Text style={{ marginTop: 20 }}>Enter phone number</Text>
       <TextInput
@@ -74,17 +64,17 @@ export default function DoctorSignin() {
           try {
             const phoneProvider = new PhoneAuthProvider(auth);
             if (typeof phoneNumber == "string") {
-                const verificationId = await phoneProvider.verifyPhoneNumber(
-                    phoneNumber,
-                    recaptchaVerifier.current
-                  );
-                  setVerificationId(verificationId);
-                  showMessage({
-                    text: 'Verification code has been sent to your phone.',
-                  });
+              const verificationId = await phoneProvider.verifyPhoneNumber(
+                phoneNumber,
+                recaptchaVerifier.current
+              );
+              setVerificationId(verificationId);
+              showMessage({
+                text: 'Verification code has been sent to your phone.',
+              });
             }
-            
-          } catch (err:any) {
+
+          } catch (err: any) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
         }}
@@ -102,11 +92,11 @@ export default function DoctorSignin() {
         onPress={async () => {
           try {
             if (typeof verificationId == "string" && typeof verificationCode == "string") {
-            const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-            await signInWithCredential(auth, credential);
-            showMessage({ text: 'Phone authentication successful 👍' });
+              const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+              await signInWithCredential(auth, credential);
+              showMessage({ text: 'Phone authentication successful 👍' });
             }
-          } catch (err:any) {
+          } catch (err: any) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
         }}
