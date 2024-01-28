@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, View, Text } from "react-native";
 import { Audio } from 'expo-av';
+import { Sound } from "expo-av/build/Audio";
 
 const {height, width} = Dimensions.get('window');
 
@@ -50,6 +51,18 @@ const ChatRoomScreen = () => {
     const wave = require('../../../assets/wave.png');
     const [recording, setRecording] = useState<any>();
     const [blobURL, setBlobUrl] = useState<string | null>(null);
+    const [sound, setSound] = useState<Sound>();
+
+    async function playSound() {
+        if (blobURL){
+            console.log('Loading Sound');
+            const { sound } = await Audio.Sound.createAsync({uri: blobURL});
+            setSound(sound);
+            console.log('Playing Sound');
+            await sound.playAsync();
+        }
+ 
+      }
 
     async function startListening() {
         try {
@@ -93,6 +106,7 @@ const ChatRoomScreen = () => {
                         return (
                             <View key={index} style={{ minWidth: '100%', maxHeight: '15%', minHeight: '14%', flexDirection: 'row-reverse' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column', marginRight: 10}]}>
+                                    <Pressable onPress={playSound}>
                                     <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 20, marginBottom: 10 }}>
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
@@ -102,6 +116,9 @@ const ChatRoomScreen = () => {
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                     </View>
+
+                                    </Pressable>
+ 
                                     <Text style={{textAlign: 'left', marginLeft: 20 }}>{theMessage.translation}</Text>
 
 
