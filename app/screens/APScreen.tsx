@@ -1,4 +1,7 @@
-import { StyleSheet, Text, View } from "react-native"
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import Checkbox from 'expo-checkbox';
+
 
 
 interface DocItem{
@@ -24,19 +27,33 @@ const doctorOfUser: DocItem[] = [
 
 
 const APScreen = ()=>{
+    const [isChecked, setIsChecked] = useState(false);
+    const [no, setNo] =useState(false);
+
     return(
-<View style={styles.container}>
-    {doctorOfUser.map((docItem, index) => (
-        <View key={index}>
-            <Text>{index+1}. {docItem.docName} advices: </Text>
-            {docItem.thisDocToDoItems.map((todoItem, index) => (
-                <View key={index}>
-                    <Text>{todoItem}</Text>
-                </View>
+<ScrollView style={styles.container}>
+    {doctorOfUser.map((docItem, index1) => (
+        <View key={index1} style={styles.largeAdviceContainer} >
+            <Text>{index1+1}. {docItem.docName} advices: </Text>
+            <View style={styles.adviceContainer}>
+            {docItem.thisDocToDoItems.map((todoItem, index2) => (
+                ((index2 == 0 && index1 == 0)? (<View key={index2} style={{flexDirection:'row'}}>
+                <Checkbox  style={{margin:8}} value={isChecked} onValueChange={setIsChecked}/>
+                <Text style={{marginTop:8}}>{todoItem}</Text>
+
+            </View>):(                    <View key={index2} style={{flexDirection:'row'}}>
+                    <Checkbox  style={{margin:8}} value={no} onValueChange={setNo}/>
+                    <Text style={{marginTop:8}}>{todoItem}</Text>
+ 
+                </View>))
+
+                
+
             ))}
+            </View>
         </View>
     ))}
-</View>
+</ScrollView>
     )
 }
 
@@ -46,52 +63,21 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection:'column',
-        alignItems: 'center',
-        justifyContent: 'center',
         width: '100%',
         height:'100%',
         backgroundColor: '#DBE9EE',
+        paddingHorizontal:"5%",
+        paddingVertical:50
     },
-    audioButton: {
-        position:'absolute',
-        bottom:20,
-        width: 100, // Width of the round view
-        height: 100, // Height of the round view (should be equal to width)
-        borderRadius: 50, // Half of the width and height to make it round
-        backgroundColor: '#fff',
-        alignItems:'center',
-        justifyContent:'center'
+    adviceContainer:{
+        backgroundColor:'#F2F2F2',
+        borderWidth:0,
+        borderRadius:20,
+        paddingHorizontal:10,
+        paddingVertical:5
     },
-    audioImage: {
-        width: 50,
-        height: 50,
-        resizeMode: 'contain'
-    },
-    messageBox: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#F2F2F22',
-        // React Native doesn't support box-shadow directly, but you can use elevation for Android
-        elevation: 5, // This is for Android; you'll need to use shadow props for iOS
-        // For iOS shadow
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 16.8,
-        borderRadius: 20,
-        maxWidth: "60%",
-        maxHeight:100
-    },
-    playS: {
-        maxHeight: 50,
-        resizeMode: 'contain'
-    },
-    playW: {
-        maxHeight: 30,
-        resizeMode: 'contain'
+    largeAdviceContainer:{
+        marginTop: 20
     }
 
 })

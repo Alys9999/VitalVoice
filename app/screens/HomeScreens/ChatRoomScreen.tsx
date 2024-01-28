@@ -93,18 +93,13 @@ const ChatRoomScreen = () => {
                         return (
                             <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column', }]}>
-
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                     </View>
                                     <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
 
@@ -114,25 +109,18 @@ const ChatRoomScreen = () => {
                         )
                     } else {
                         return (
-                            <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
+                            <View key={index} style={{alignItems:'center', minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
+                                <Image source={wave} style={{marginRight:5}}></Image>
                                 <View style={[styles.messageBox, { flexDirection: 'column' }]}>
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                         <Image source={wave} style={styles.playW}></Image>
-
                                     </View>
-
-
                                     <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
-
-
                                 </View>
                             </View>
                         )
@@ -180,18 +168,9 @@ const styles = StyleSheet.create({
     messageBox: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F2F2F22',
-        // React Native doesn't support box-shadow directly, but you can use elevation for Android
-        elevation: 5, // This is for Android; you'll need to use shadow props for iOS
-        // For iOS shadow
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 16.8,
-        borderRadius: 20,
+        backgroundColor: '#F2F2F2',
+        borderRadius: 50,
+        elevation:5,
         maxWidth: "60%",
         maxHeight:100
     },
