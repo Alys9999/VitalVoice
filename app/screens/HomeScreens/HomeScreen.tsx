@@ -53,12 +53,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#DBE9EE',
     },
     userInfoContainer: {  // individual chat box
-      width: "90%",
+      width: "100%",
       flexDirection: "row",
       alignItems: "center",
       height: '80%',
       backgroundColor: '#F2F2F2',
-      borderRadius: 20
     },
     userImage: {
       height: 50,
