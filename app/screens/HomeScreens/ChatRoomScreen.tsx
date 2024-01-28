@@ -21,9 +21,9 @@ type Messages = {
 }
 
 const mockingMessagesList: Message[] = [
-    { senderid: '0', timestamp: '2021-01-01T00:00:00Z', ogaudiourl: 'url1', transaudiourl: 'url2', transcroption: 'transcription1', translation: 'translation1' },
-    { senderid: '1', timestamp: '2021-01-02T00:00:00Z', ogaudiourl: 'url3', transaudiourl: 'url4', transcroption: 'transcription2', translation: 'translation2' },
-    { senderid: '0', timestamp: '2021-01-03T00:00:00Z', ogaudiourl: 'url5', transaudiourl: 'url6', transcroption: 'transcription3', translation: 'translation3' },
+    { senderid: '0', timestamp: '2021-01-01T00:00:00Z', ogaudiourl: 'url1', transaudiourl: 'https://storage.googleapis.com/vitalvoice-8acf9.appspot.com/1706471471.mp3', transcroption: 'transcription1', translation: 'translation1' },
+    { senderid: '1', timestamp: '2021-01-02T00:00:00Z', ogaudiourl: 'url3', transaudiourl: 'https://storage.googleapis.com/vitalvoice-8acf9.appspot.com/1706471510.mp3', transcroption: 'transcription2', translation: 'translation2' },
+    { senderid: '0', timestamp: '2021-01-03T00:00:00Z', ogaudiourl: 'url5', transaudiourl: 'https://storage.googleapis.com/vitalvoice-8acf9.appspot.com/1706471537.mp3', transcroption: 'transcription3', translation: 'translation3' },
     { senderid: '1', timestamp: '2021-01-04T00:00:00Z', ogaudiourl: 'url7', transaudiourl: 'url8', transcroption: 'transcription4', translation: 'translation4' },
     { senderid: '0', timestamp: '2021-01-05T00:00:00Z', ogaudiourl: 'url9', transaudiourl: 'url10', transcroption: 'transcription5', translation: 'translation5' },
     { senderid: '1', timestamp: '2021-01-06T00:00:00Z', ogaudiourl: 'url11', transaudiourl: 'url12', transcroption: 'transcription6', translation: 'translation6' },
@@ -53,10 +53,10 @@ const ChatRoomScreen = () => {
     const [blobURL, setBlobUrl] = useState<string | null>(null);
     const [sound, setSound] = useState<Sound>();
 
-    async function playSound() {
-        if (blobURL){
+    const playSound =  async (url:string)=> {
+        if (url){
             console.log('Loading Sound');
-            const { sound } = await Audio.Sound.createAsync({uri: blobURL});
+            const { sound } = await Audio.Sound.createAsync({uri: url});
             setSound(sound);
             console.log('Playing Sound');
             await sound.playAsync();
@@ -106,7 +106,7 @@ const ChatRoomScreen = () => {
                         return (
                             <View key={index} style={{ minWidth: '100%', maxHeight: '15%', minHeight: '14%', flexDirection: 'row-reverse' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column', marginRight: 10}]}>
-                                    <Pressable onPress={playSound}>
+                                    <Pressable onPress={()=>{playSound(theMessage.transaudiourl)}}>
                                     <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 20, marginBottom: 10 }}>
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
