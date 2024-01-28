@@ -12,7 +12,7 @@ export default function HomeNav() {
     return (
             <HomeStack.Navigator initialRouteName='HomeScreen'>
                 <HomeStack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}></HomeStack.Screen>
-                <HomeStack.Screen name='theChatRoom' component={ChatRoomScreen}></HomeStack.Screen>
+                <HomeStack.Screen name='theChatRoom' component={ChatRoomScreen} options={{ headerShown: false}}></HomeStack.Screen>
 
             </HomeStack.Navigator>
 
