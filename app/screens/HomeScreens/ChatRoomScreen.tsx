@@ -1,6 +1,6 @@
-<<<<<<< HEAD
 import { useState } from "react";
-import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Dimensions, Image, Pressable, ScrollView, StyleSheet, View, Text } from "react-native";
+import { Audio } from 'expo-av';
 
 const {height, width} = Dimensions.get('window');
 
@@ -41,26 +41,49 @@ type ChatRoomProps = {
     name: string,
 
 
-=======
-import { Image, Pressable, StyleSheet, View, Text } from "react-native";
-import { useState } from "react";
-import { Audio } from 'expo-av';
-
-interface mockingChat {
-  sender: "string";
->>>>>>> b17a347463eb524174f714ef7fbce2d667b18fba
 }
+
 
 const ChatRoomScreen = () => {
     const mic = require("../../../assets/mic.png");
+    const play = require('../../../assets/play.png');
+    const wave = require('../../../assets/wave.png');
     const [recording, setRecording] = useState<any>();
     const [blobURL, setBlobUrl] = useState<string | null>(null);
 
-<<<<<<< HEAD
-const ChatRoomScreen = () => {
-    const mic = require('../../../assets/mic.png');
-    const play = require('../../../assets/play.png');
-    const wave = require('../../../assets/wave.png');
+    async function startListening() {
+        try {
+          console.log('Requesting permissions..');
+          await Audio.requestPermissionsAsync();
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: true,
+            playsInSilentModeIOS: true,
+          });
+  
+          console.log('Starting recording..');
+          const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+          );
+          setRecording(recording);
+          console.log('Recording started');
+        } catch (err) {
+          console.error('Failed to start recording', err);
+        }
+      }
+  
+      async function stopListening() {
+        console.log('Stopping recording..');
+        setRecording(undefined);
+        await recording.stopAndUnloadAsync();
+        await Audio.setAudioModeAsync(
+          {
+            allowsRecordingIOS: false,
+          }
+        );
+        const uri = recording.getURI();
+        console.log('Recording stopped and stored at', uri);
+        setBlobUrl(uri);      
+      }
+    
     return (
         <View style={styles.container}>
             <Text style={{alignSelf:'flex-start', fontSize:24, fontWeight: '500', marginLeft:10, marginTop:20}}>{mockingMessages.doctor_name}</Text>
@@ -119,64 +142,17 @@ const ChatRoomScreen = () => {
             </ScrollView>
             {mockingMessages.channel_status ? (
                 <View style={styles.audioButton}>
-                    <Pressable >
+                    <Pressable onPressIn={startListening} onPressOut={stopListening} >
                         <Image style={styles.audioImage} source={mic} resizeMode="contain" ></Image>
                     </Pressable>
                 </View>) : (<View style={styles.audioButton}></View>)}
-=======
-    async function startListening() {
-      try {
-        console.log('Requesting permissions..');
-        await Audio.requestPermissionsAsync();
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
-
-        console.log('Starting recording..');
-        const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
-        );
-        setRecording(recording);
-        console.log('Recording started');
-      } catch (err) {
-        console.error('Failed to start recording', err);
-      }
-    }
-
-    async function stopListening() {
-      console.log('Stopping recording..');
-      setRecording(undefined);
-      await recording.stopAndUnloadAsync();
-      await Audio.setAudioModeAsync(
-        {
-          allowsRecordingIOS: false,
-        }
-      );
-      const uri = recording.getURI();
-      console.log('Recording stopped and stored at', uri);
-      setBlobUrl(uri);      
-    }
-    
-    return (
-        <View style={styles.container}>
-            <Pressable onPressIn={startListening} onPressOut={stopListening}>
-                <View style={styles.audioButton}>
-                <Image
-                    style={styles.audioButton}
-                    source={mic}
-                    resizeMode="contain"
-                ></Image>
-                </View>
-            </Pressable>
->>>>>>> b17a347463eb524174f714ef7fbce2d667b18fba
         </View>
-    );
-};
+    )
+}
 
 export default ChatRoomScreen;
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
     container: {
         flex: 1,
         flexDirection:'column',
@@ -229,23 +205,3 @@ const styles = StyleSheet.create({
     }
 
 })
-=======
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    backgroundColor: "#DBE9EE",
-  },
-  audioButton: {
-    width: 100, // Width of the round view
-    height: 100, // Height of the round view (should be equal to width)
-    borderRadius: 50, // Half of the width and height to make it round
-    backgroundColor: "#fff",
-  },
-  audioImage: {
-    width: 100,
-    height: 100,
-  },
-});
->>>>>>> b17a347463eb524174f714ef7fbce2d667b18fba
