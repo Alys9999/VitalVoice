@@ -1,11 +1,18 @@
-import {FIREBASE_AUTH} from "../Firebase"
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {FIREBASE_AUTH, FIREBASE_APP} from "../Firebase"
+import { NavigationProp } from "@react-navigation/native";
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import React from "react";
+
 
 export const currentUser = FIREBASE_AUTH.currentUser;
 
-export const SignIn = async (email:any, password:any) => {
-  signInWithEmailAndPassword(FIREBASE_AUTH, email, password).catch((e)=>{
-    console.log(e);
-    throw e;
-  }).then(()=>{});
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+export const SignIn = (phoneNumber:any, navigation: NavigationProp<any, any>) => {
+  const recaptchaVerifier = React.useRef(null);
+
+
+
 }

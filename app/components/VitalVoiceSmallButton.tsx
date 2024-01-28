@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View } from "react-native"
 import { Text } from "react-native";
 
 
-function VitalVoiceButton(props: any){
+function VitalVoiceSmallButton(props: any){
     return(
         <Pressable onPress={(props.action)}  style={styles.container}>
             <Text >{props.name}</Text>
@@ -11,17 +11,17 @@ function VitalVoiceButton(props: any){
 }
 
 
-export default VitalVoiceButton;
+export default VitalVoiceSmallButton;
 
 const styles = StyleSheet.create({
     container: {
-        width: 210,
+        width: 150,
         height: 40,
         borderRadius: 20,
         backgroundColor: '#F2F2F2',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: 10,
         shadowColor: '#000',
         shadowOffset: {
         width: 0,

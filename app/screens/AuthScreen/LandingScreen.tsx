@@ -1,26 +1,48 @@
-// import { styled } from 'nativewind';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import VitalVoiceButton from '../../components/VitalVoiceButton';
+import { NavigationProp } from '@react-navigation/native';
 
-// const StyledView = styled(View);
-// const StyledImage = styled(Image);
-// const StyledText = styled(Text);
+interface RouterProps {
+    navigation: NavigationProp<any, any>;
+}
 
 
-
-const LandingScreen = ()=>{
+const LandingScreen = ({navigation}: RouterProps)=>{
     const logo = require('../../../assets/VitalVoiceLogo.png');
 
     return (
-        // // <StyledView className='flex '>
-        //     {/* <StyledImage source={logo} resizeMode="contain" className=''></StyledImage> */}
-        //     {/* <VitalVoiceButton name='Doctor Sign In' action={()=>{}}></VitalVoiceButton> */}
-        //     {/* <VitalVoiceButton name='Patiend Sign In' action={()=>{}}></VitalVoiceButton> */}
-        //     {/* <StyledText>New User</StyledText> */}
-        // // </StyledView>
-        <View></View>
-
+        <View style={styles.viewstyle}> 
+            <Image source={logo} resizeMode="contain" style={styles.logo}></Image>
+            <VitalVoiceButton name='Practitioner Sign In' action={()=>{navigation.navigate('DoctorSignin')}}></VitalVoiceButton>
+            <VitalVoiceButton name='Patient Sign In' action={()=>{navigation.navigate('PatientSignin')}}></VitalVoiceButton>
+            <Pressable onPress={()=>{navigation.navigate("NewUser")}}>
+            <Text style={styles.smallText}>New User</Text>
+            </Pressable>
+        </View>
     )
 }
 
 export default LandingScreen;
+
+
+const styles = StyleSheet.create({
+    viewstyle:{
+        flex:1,
+        alignItems:'center',
+        alignContent:'center',
+        justifyContent:'center',
+        backgroundColor: '#DBE9EE',
+    },
+    logo: {
+        marginTop: -40,
+        marginBottom: 20,
+    },
+    smallText: {
+        marginTop: 15,
+        fontSize: 14,
+        textDecorationLine: 'underline'
+    },
+    newSignInButton: {
+        backgroundColor: '#4A6FA5',
+    },
+})
