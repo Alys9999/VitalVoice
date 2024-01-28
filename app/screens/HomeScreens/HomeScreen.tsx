@@ -42,7 +42,7 @@ const HomeScreen = ({ navigation }: RouterProps,) => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.header}>Channels</Text>
 
-        <View >
+        <View style={styles.search}>
           <Search name='' value={chatSearch} onChangeText={onChangeChatSearch} placeholder=''></Search>
         </View>
 
@@ -57,54 +57,61 @@ const HomeScreen = ({ navigation }: RouterProps,) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width:'100%',
-        backgroundColor: '#DBE9EE',
-    },
-    userInfoContainer: {  // individual chat box
-      width: "100%",
-      flexDirection: "row",
-      alignItems: "center",
-      height: '80%',
-      backgroundColor: '#F2F2F2',
-    },
-    userImage: {
-      height: 50,
-      width: 50,
-    },
-    lastSeen: {
-      fontSize: 14,
-    },
-    textContainer: {
-      flex: 1,
-    },
-    fullName: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 5,
-    },
-    lastMessage: {
-      fontSize: 14,
-      color: '#666666',
-    },
-    profile: {
-      marginLeft: 20,
-      marginRight: 20,
-    },
-    header: {
-      marginTop: 80,
-      fontSize: 25,
-      marginBottom: 20,
-    },
-    add: {
-      position: 'absolute',
-      bottom: 20,
-      right: 10,
-    }
-  });
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: '#DBE9EE',
+  },
+  userInfoContainer: {  // individual chat box
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    height: '100%',
+    backgroundColor: '#F2F2F2',
+    borderTopWidth: 0.5,
+    borderTopColor: '#CDCDCD',
+  },
+  userImage: {
+    height: 50,
+    width: 50,
+  },
+  lastSeen: {
+    fontSize: 14,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  fullName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  lastMessage: {
+    fontSize: 14,
+    color: '#666666',
+  },
+  profile: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  header: {
+    marginTop: 60,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  add: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+  search: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width,
+  }
+});
 
 export default HomeScreen;
 

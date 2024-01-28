@@ -34,14 +34,17 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     inputV: {
-        maxWidth: '80%'
+        width: '90%',
+        height: '100%',
+        marginLeft: 10,
     },
     inputBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
         height: 40,
         borderRadius: 20,
         backgroundColor: '#F2F2F2',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         marginBottom: 25,
         shadowColor: '#000',
         shadowOffset: {
@@ -54,6 +57,6 @@ const styles = StyleSheet.create({
     },
     searchIcon: {
         marginLeft: 15,
-        marginTop: 17,
+        marginTop: 3,
     }
 })
