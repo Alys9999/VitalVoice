@@ -1,17 +1,3 @@
-// import axios from "axios";
-
-// export const test = async () => {
-//   try {
-//     const response = await axios.get(`${process.env.REACT_APP_SYNC_SERVER}/test`,{ headers: {
-//     "Accept": "application/json, text/plain, */*",
-//   },});
-//     return response.data;
-//   } catch (error:any) {
-//     const { data } = error.response;
-//     throw data;
-//   }
-// };
-
 export function signUp(phone_number, firstname, lastname, role, language) {
   fetch("http://192.168.1.170:5000/signup?phone_number=" + phone_number + "&firstname=" + firstname + "&lastname=" + lastname + "&role=" + role + "&language=" + language)
     .then(res => res.json())
