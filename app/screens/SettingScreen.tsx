@@ -11,7 +11,7 @@ const SettingScreen = () => {
         <View style={styles.container}>
             {/* <Text>Current User: {FIREBASE_AUTH.currentUser?.phoneNumber}</Text> */}
             <Text style={styles.header}>Settings</Text>
-            <Text>Please choose a language:</Text>
+            <Text style={styles.subheading}>Please choose a language:</Text>
             <Picker
                 selectedValue={selectedLanguage}
                 style={{ height: 50, width: 150 }}
@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+    subheading: {
+        marginTop: 50,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
     signOut: {
         width: '80%',
         height: 40,
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#4A6FA5',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: 530,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

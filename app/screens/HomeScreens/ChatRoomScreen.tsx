@@ -30,7 +30,7 @@ const mockingMessagesList: Message[] = [
 ];
 
 const mockingMessages: Messages = {
-    doctor_name: '1',
+    doctor_name: 'Dr. Panageas',
     channel_status: true,
     messages: mockingMessagesList
 };
@@ -86,22 +86,23 @@ const ChatRoomScreen = () => {
     
     return (
         <View style={styles.container}>
-            <Text style={{alignSelf:'flex-start', fontSize:24, fontWeight: '500', marginLeft:10, marginTop:20}}>{mockingMessages.doctor_name}</Text>
+            <Text style={{alignSelf:'flex-start', fontSize:24, fontWeight: '500', marginLeft:20, marginTop:50, marginBottom: 20}}>{mockingMessages.doctor_name}</Text>
             <ScrollView>
                 {mockingMessages.messages.map((theMessage, index) => {
                     if (theMessage.senderid == currentUserID) {
                         return (
-                            <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
-                                <View style={[styles.messageBox, { flexDirection: 'column', }]}>
-                                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                            <View key={index} style={{ minWidth: '100%', maxHeight: '15%', minHeight: '14%', flexDirection: 'row-reverse' }}>
+                                <View style={[styles.messageBox, { flexDirection: 'column', marginRight: 10}]}>
+                                    <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 20, marginBottom: 10 }}>
                                         <Image source={play} style={styles.playS}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
+                                        <Image source={wave} style={styles.playW}></Image>
                                     </View>
-                                    <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
+                                    <Text style={{textAlign: 'left', marginLeft: 20 }}>{theMessage.translation}</Text>
 
 
                                 </View>
@@ -109,19 +110,21 @@ const ChatRoomScreen = () => {
                         )
                     } else {
                         return (
-                            <View key={index} style={{alignItems:'center', minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
-                                <Image source={wave} style={{marginRight:10}}></Image>
+                            <View key={index} style={{minWidth: '100%', maxHeight: '15%', minHeight: '14%', flexDirection: 'row' }}>
+                                <Image source={wave} style={{marginRight:10, marginLeft: 20}}></Image>
                                 <View style={styles.arrow}></View>
                                 <View style={[styles.messageBox, { flexDirection: 'column' }]}>
-                                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-                                        <Image source={play} style={styles.playS}></Image>
+                                    <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 20, marginBottom: 10 }}>
+                                    <Image source={play} style={styles.playS}></Image>
+                                        <Image source={wave} style={styles.playW}></Image>
+                                        
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                         <Image source={wave} style={styles.playW}></Image>
                                     </View>
-                                    <Text style={{ textAlign: 'center' }}>{theMessage.translation}</Text>
+                                    <Text style={{textAlign: 'left', marginLeft: 20 }}>{theMessage.translation}</Text>
                                 </View>
                             </View>
                         )
@@ -132,7 +135,7 @@ const ChatRoomScreen = () => {
             {mockingMessages.channel_status ? (
                 <View style={styles.audioButton}>
                     <Pressable onPressIn={startListening} onPressOut={stopListening} >
-                        <Image style={styles.audioImage} source={mic} resizeMode="contain" ></Image>
+                        <Image style={[styles.audioImage, { tintColor: '#4A6FA5' }]} source={mic} resizeMode="contain" ></Image>
                     </Pressable>
                 </View>) : (<View style={styles.audioButton}></View>)}
         </View>
@@ -157,9 +160,11 @@ const styles = StyleSheet.create({
         width: 100, // Width of the round view
         height: 100, // Height of the round view (should be equal to width)
         borderRadius: 50, // Half of the width and height to make it round
-        backgroundColor: '#fff',
+        backgroundColor: '#F2F2F2',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        borderWidth: 0.5,
+        borderColor: '#B0B0B0',
     },
     audioImage: {
         width: 50,
@@ -173,7 +178,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         // elevation:5,
         maxWidth: "60%",
-        maxHeight:100
+        maxHeight:100,
+        marginBottom: 20,
     },
     arrow: {
         width: 0,
@@ -186,16 +192,16 @@ const styles = StyleSheet.create({
         borderRightColor: '#F2F2F2', // Match messageBox background color
         borderTopColor: 'transparent',
         borderBottomColor: 'transparent',
-        marginRight: -10, // Adjust based on arrow size
-        transform: [{ rotate: '110deg' }], // Rotate to point to the left
+        marginRight: -20, // Adjust based on arrow size
+        transform: [{ rotate: '130deg' }], // Rotate to point to the left
       },
     playS: {
         maxHeight: 50,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        marginRight: 20
     },
     playW: {
         maxHeight: 30,
         resizeMode: 'contain'
     }
-
 })

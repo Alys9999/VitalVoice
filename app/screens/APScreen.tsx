@@ -31,29 +31,32 @@ const APScreen = ()=>{
     const [no, setNo] =useState(false);
 
     return(
-<ScrollView style={styles.container}>
-    {doctorOfUser.map((docItem, index1) => (
-        <View key={index1} style={styles.largeAdviceContainer} >
-            <Text>{index1+1}. {docItem.docName} advices: </Text>
-            <View style={styles.adviceContainer}>
-            {docItem.thisDocToDoItems.map((todoItem, index2) => (
-                ((index2 == 0 && index1 == 0)? (<View key={index2} style={{flexDirection:'row'}}>
-                <Checkbox  style={{margin:8}} value={isChecked} onValueChange={setIsChecked}/>
-                <Text style={{marginTop:8}}>{todoItem}</Text>
+        <View style={styles.container}>
+            <Text style={styles.header}>Settings</Text>
+            <ScrollView>
+                {doctorOfUser.map((docItem, index1) => (
+                    <View key={index1} style={styles.largeAdviceContainer} >
+                        <Text style={styles.name}>{docItem.docName} advices...</Text>
+                        <View style={styles.adviceContainer}>
+                        {docItem.thisDocToDoItems.map((todoItem, index2) => (
+                            ((index2 == 0 && index1 == 0)? (<View key={index2} style={{flexDirection:'row'}}>
+                            <Checkbox  style={{margin:8}} value={isChecked} onValueChange={setIsChecked}/>
+                            <Text style={{marginTop:8}}>{todoItem}</Text>
 
-            </View>):(                    <View key={index2} style={{flexDirection:'row'}}>
-                    <Checkbox  style={{margin:8}} value={no} onValueChange={setNo}/>
-                    <Text style={{marginTop:8}}>{todoItem}</Text>
- 
-                </View>))
+                        </View>):(                    <View key={index2} style={{flexDirection:'row'}}>
+                                <Checkbox  style={{margin:8}} value={no} onValueChange={setNo}/>
+                                <Text style={{marginTop:8}}>{todoItem}</Text>
+            
+                            </View>))
 
-                
+                            
 
-            ))}
-            </View>
+                        ))}
+                        </View>
+                    </View>
+                ))}
+            </ScrollView>
         </View>
-    ))}
-</ScrollView>
     )
 }
 
@@ -62,22 +65,39 @@ export default APScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection:'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         width: '100%',
-        height:'100%',
         backgroundColor: '#DBE9EE',
-        paddingHorizontal:"5%",
-        paddingVertical:50
+    },
+    header: {
+        marginTop: 60,
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     adviceContainer:{
         backgroundColor:'#F2F2F2',
-        borderWidth:0,
-        borderRadius:20,
-        paddingHorizontal:10,
-        paddingVertical:5
+        borderWidth: 0,
+        borderRadius: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 25,
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     largeAdviceContainer:{
         marginTop: 20
+    },
+    name: {
+        marginBottom: 5,
+        fontWeight: 'bold',
+        marginLeft: 10,
     }
 
 })
