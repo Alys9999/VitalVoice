@@ -88,10 +88,10 @@ const ChatRoomScreen = () => {
         <View style={styles.container}>
             <Text style={{alignSelf:'flex-start', fontSize:24, fontWeight: '500', marginLeft:10, marginTop:20}}>{mockingMessages.doctor_name}</Text>
             <ScrollView>
-                {mockingMessages.messages.map((theMessage) => {
+                {mockingMessages.messages.map((theMessage, index) => {
                     if (theMessage.senderid == currentUserID) {
                         return (
-                            <View style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
+                            <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row-reverse' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column', }]}>
 
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
@@ -114,7 +114,7 @@ const ChatRoomScreen = () => {
                         )
                     } else {
                         return (
-                            <View style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
+                            <View key={index} style={{ minWidth: '100%', maxHeight: '20%', minHeight: '19%', flexDirection: 'row' }}>
                                 <View style={[styles.messageBox, { flexDirection: 'column' }]}>
                                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
 

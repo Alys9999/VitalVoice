@@ -29,8 +29,8 @@ const APScreen = ()=>{
     {doctorOfUser.map((docItem, index) => (
         <View key={index}>
             <Text>{index+1}. {docItem.docName} advices: </Text>
-            {docItem.thisDocToDoItems.map((todoItem) => (
-                <View>
+            {docItem.thisDocToDoItems.map((todoItem, index) => (
+                <View key={index}>
                     <Text>{todoItem}</Text>
                 </View>
             ))}
